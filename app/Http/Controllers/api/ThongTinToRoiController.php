@@ -17,7 +17,7 @@ class ThongTinToRoiController extends Controller
         if(ThongTinToRoi::count() == 0){
             return response()->json(['code' => 401, 'message' => 'Không tìm thấy']);
         } else {
-            $result = ThongTinToRoi::join('quanly', 'bangrontoroi.Mã Nhân Viên','=','quanly.Mã Quản Lý')->join('coso','bangrontoroi.Cơ Sở','=','coso.Cơ Sở')->select('bangrontoroi.*', 'coso.Tên Cơ Sở', 'quanly.Họ Và Tên')->paginate(15);
+            $result = ThongTinToRoi::join('QUANLY', 'BANGRONTOROI.Mã Nhân Viên','=','QUANLY.Mã Quản Lý')->join('coso','BANGRONTOROI.Cơ Sở','=','coso.Cơ Sở')->select('BANGRONTOROI.*', 'coso.Tên Cơ Sở', 'QUANLY.Họ Và Tên')->paginate(15);
             $custom = collect(['code' => 200]);
             $data = $custom->merge($result);
             return response()->json($data)->header('charset','utf-8');

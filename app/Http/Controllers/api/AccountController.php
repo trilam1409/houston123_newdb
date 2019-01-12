@@ -7,6 +7,8 @@ use App\Account;
 use App\Quanly;
 use App\Giaovien;
 use App\Hocvien;
+use App\Loaiquanly;
+use App\Coso;
 use App\Http\Controllers\Controller;
 use Lcobucci\JWT\Parser;
 use Illuminate\Support\Facades\Hash;
@@ -19,98 +21,120 @@ class AccountController extends Controller
     {
         $request->validate([
             'fullname' => 'required|string',
-            'permission' => 'required|string',
+            'chucvu' => 'required|string',
             'khuvuc' => 'required|string',
             'loginID' => 'required|string',
             'loginPASS' => 'required|string'
         ]);
 
-        if($request->permission == 'giaovien'){
+        if($request->chucvu == 'Giáo Viên'){
             $account_id = 'GV';
         } else {
             $account_id = 'QL';
         }
 
+
         if(Account::where('loginID',$request->loginID)->count() == 0){
             $acount_id_max = Account::select('account_id')->where('account_id','like', ''.$account_id.'%')->max('account_id');
             $account_id_new = str_pad(substr($acount_id_max,-4) + 1,'6',''.$account_id.'0000', STR_PAD_LEFT);
+            $maQuanLy = Loaiquanly::select('Permission')->where('Loại Quản Lý', $request->chucvu)->value('Permission');
+            $maKhuVuc = Coso::select('Cơ Sở')->where('Tên Cơ Sở',$request->khuvuc)->value('Cơ Sở');
             $account = new Account([
                 'account_id' => $account_id_new,
                 'fullname' => $request->fullname,
-                'permission' => $request->permission,
-                'khuvuc' => $request->khuvuc,
+                'permission' => $maQuanLy,
+                'loaiquanly' => $request->chucvu,
+                'khuvuc' => $maKhuVuc,
                 'loginID' => $request->loginID,
                 'loginPASS' => bcrypt($request->loginPASS)
             ]);
 
             $account->save();
-            $detail = Account::where('account_id',$account_id_new)->first();
-            return response()->json(array('code' => 200, 'account_id' => $detail->account_id));
+
+            if($request->chucvu == 'Giáo Viên'){
+                $giaovien = new GiaoVien([
+                    'Mã Giáo Viên' => $account_id_new,
+                    'Họ Và Tên' => $request->fullname,
+                    'Cơ Sở' => $maKhuVuc
+                ]);
+                $giaovien->save();
+
+            } else {
+                $quanly = new QuanLy([
+                    'Mã Quản Lý' => $account_id_new,
+                    'Họ Và Tên' => $request->fullname,
+                    'Cơ Sở' => $maKhuVuc,
+                    'Chức Vụ' => $request->chucvu,
+                    'permission' => $maQuanLy,
+                ]);
+                $quanly->save();
+            }
+            return response()->json(array('code' => 200, 'message' => 'Tạo tài khoản thành công'));
         } else {
             return response()->json(['code' => 422, 'message' => 'Tên tài khoản đã được sử dụng']);
         }
         
     }
 
-    public function register_info(Request $request){
-        $request->validate([
-            'account_id' => 'required|string',
-            'Mã Quản Lý' => 'unique:quanly',
-            'available' => 'numeric',
-            'hinhanh' => 'image',
-            'sdt' => 'required|string',
-            'diachi' => 'required|string',
-            'email' => 'email',
-            'cmnd' => 'required|numeric'
-        ]);
+    // public function register_info(Request $request){
+    //     $request->validate([
+    //         'account_id' => 'required|string',
+    //         'Mã Quản Lý' => 'unique:quanly',
+    //         'available' => 'numeric',
+    //         'hinhanh' => 'image',
+    //         'sdt' => 'required|string',
+    //         'diachi' => 'required|string',
+    //         'email' => 'email',
+    //         'cmnd' => 'required|numeric'
+    //     ]);
 
-        if(QuanLy::where('Mã Quản Lý',$request->account_id)->count() >0){
-            return response()->json(['code' => 422, 'message' => 'Tài khoản đã tồn tại']);
-        } else  if(Giaovien::where('Mã Giáo Viên',$request->account_id)->count() >0){
-            return response()->json(['code' => 422, 'message' => 'Tài khoản đã tồn tại']);
-        } 
+    //     if(QuanLy::where('Mã Quản Lý',$request->account_id)->count() >0){
+    //         return response()->json(['code' => 422, 'message' => 'Tài khoản đã tồn tại']);
+    //     } else  if(Giaovien::where('Mã Giáo Viên',$request->account_id)->count() >0){
+    //         return response()->json(['code' => 422, 'message' => 'Tài khoản đã tồn tại']);
+    //     } 
 
-        $detail = Account::where('account_id',$request->account_id)->first();
-        $type = substr($request->account_id,0,-4);
-        $path_image = $request->file('hinhanh')->store('public/avatar_user');
-        if($type == 'QL'){
-            $quanly = new Quanly([
-                        'Mã Quản Lý' => $request->account_id,
-                        'Họ Và Tên' => $detail->fullname,
-                        'Hình Ảnh' => str_replace('public/avatar_user/','', $path_image),
-                        'Số Điện Thoại' => $request->sdt,
-                        'Địa chỉ' => $request->diachi,
-                        'Email' => $request->email,
-                        'CMND' => $request->cmnd,
-                        'Chức Vụ' => $request->loaiquanly,
-                        'Cơ Sở' => $detail->khuvuc
-                    ]);
+    //     $detail = Account::where('account_id',$request->account_id)->first();
+    //     $type = substr($request->account_id,0,-4);
+    //     $path_image = $request->file('hinhanh')->store('public/avatar_user');
+    //     if($type == 'QL'){
+    //         $quanly = new Quanly([
+    //                     'Mã Quản Lý' => $request->account_id,
+    //                     'Họ Và Tên' => $detail->fullname,
+    //                     'Hình Ảnh' => str_replace('public/avatar_user/','', $path_image),
+    //                     'Số Điện Thoại' => $request->sdt,
+    //                     'Địa chỉ' => $request->diachi,
+    //                     'Email' => $request->email,
+    //                     'CMND' => $request->cmnd,
+    //                     'Chức Vụ' => $request->loaiquanly,
+    //                     'Cơ Sở' => $detail->khuvuc
+    //                 ]);
                 
-            $quanly->save();
-            $account = Account::where('account_id',$request->account_id)->update(['available' => $request->available, 'hinhanh' => str_replace('public/avatar_user/','', $path_image),
-         'loaiquanly' => $request->loaiquanly]);
-        return response()->json(['code' => 200, 'message' => 'Tạo quản lý thành công']);
-        } else if ($type == 'GV'){
-            $giaovien = new Giaovien([
-                'Mã Giáo Viên' => $request->account_id,
-                'Họ Và Tên' => $detail->fullname,
-                'Hình Ảnh' => str_replace('public/avatar_user/','', $path_image),
-                'Số Điện Thoại' => $request->sdt,
-                'Địa Chỉ' => $request->diachi,
-                'Email' => $request->email,
-                'CMND' => $request->cmnd,
-                'Cơ Sở' => $detail->khuvuc
-            ]);
+    //         $quanly->save();
+    //         $account = Account::where('account_id',$request->account_id)->update(['available' => $request->available, 'hinhanh' => str_replace('public/avatar_user/','', $path_image),
+    //      'loaiquanly' => $request->loaiquanly]);
+    //     return response()->json(['code' => 200, 'message' => 'Tạo quản lý thành công']);
+    //     } else if ($type == 'GV'){
+    //         $giaovien = new Giaovien([
+    //             'Mã Giáo Viên' => $request->account_id,
+    //             'Họ Và Tên' => $detail->fullname,
+    //             'Hình Ảnh' => str_replace('public/avatar_user/','', $path_image),
+    //             'Số Điện Thoại' => $request->sdt,
+    //             'Địa Chỉ' => $request->diachi,
+    //             'Email' => $request->email,
+    //             'CMND' => $request->cmnd,
+    //             'Cơ Sở' => $detail->khuvuc
+    //         ]);
 
-            $giaovien->save();
-            $account = Account::where('account_id',$request->account_id)->update(['available' => $request->available, 'hinhanh' => $request->hinhanh,
-         'loaiquanly' => $request->loaiquanly]);
-        return response()->json(['code' => 200, 'message' => 'Tạo giáo viên thành công']);
-        } else{
-            return response()->json(['code' => 400, 'message' => 'Không thành công']);
-        }
+    //         $giaovien->save();
+    //         $account = Account::where('account_id',$request->account_id)->update(['available' => $request->available, 'hinhanh' => $request->hinhanh,
+    //      'loaiquanly' => $request->loaiquanly]);
+    //     return response()->json(['code' => 200, 'message' => 'Tạo giáo viên thành công']);
+    //     } else{
+    //         return response()->json(['code' => 400, 'message' => 'Không thành công']);
+    //     }
 
-    }
+    // }
     
     public function login(Request $request){
         $request->validate([
@@ -152,12 +176,12 @@ class AccountController extends Controller
             if($account_token->revoked == 0){
                 
                 if( Giaovien::where('Mã Giáo Viên', $account_token->user_id)->count() == 1){
-                    $account = Account::where('account_id',$account_token->user_id)->join('giaovien','account_id', '=', 'giaovien.Mã Giáo Viên')
-                    ->select('account.account_id','giaovien.*','account.permission')->get();
+                    $account = Account::where('account_id',$account_token->user_id)->join('GIAOVIEN','account_id', '=', 'GIAOVIEN.Mã Giáo Viên')
+                    ->select('ACCOUNT.account_id','GIAOVIEN.*','ACCOUNT.permission')->get();
                     return response()->json(['code' => 200, 'data' => $account])->header('charset','utf-8');
                 } else if (Quanly::where('Mã Quản Lý', $account_token->user_id)->count() == 1){
-                    $account = Account::where('account_id',$account_token->user_id)->join('quanly','account_id', '=', 'quanly.Mã Quản Lý')
-                    ->select('account.account_id','quanly.*','account.permission')->get();
+                    $account = Account::where('account_id',$account_token->user_id)->join('QUANLY','account_id', '=', 'QUANLY.Mã Quản Lý')
+                    ->select('ACCOUNT.account_id','QUANLY.*','ACCOUNT.permission')->get();
                     return response()->json(['code' => 200, 'data' => $account])->header('charset','utf-8');
                 } 
             } else{

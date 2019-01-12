@@ -17,7 +17,7 @@ class PhonghocController extends Controller
         if (Phonghoc::get()->count() == 0) {
             return response()->json(['code' => 401, 'message' => 'Không tìm thấy'], 200);
         } else {
-            $phonghoc = Phonghoc::join('coso','phonghoc.branch','=','coso.Cơ Sở')->select('phonghoc.*','coso.Tên Cơ Sở')->paginate(15);
+            $phonghoc = Phonghoc::join('COSO','phonghoc.branch','=','COSO.Cơ Sở')->select('phonghoc.*','COSO.Tên Cơ Sở')->paginate(15);
             $custom = collect(['code' => 200]);
             $data = $custom->merge($phonghoc);
             return response()->json($data, 200)->header('charset','utf-8');
@@ -45,19 +45,19 @@ class PhonghocController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'coso' => 'required|string',
+            'COSO' => 'required|string',
             'succhua' => 'numeric',
             'ghichu' => 'string',
         ]);
 
-        $max = Phonghoc::where('branch', $request->coso)->max('Mã Phòng Học');
-        $ma_phong_hoc = str_pad(substr($max, -3) + 1, '7', ''.$request->coso.'P000', STR_PAD_LEFT);
+        $max = Phonghoc::where('branch', $request->COSO)->max('Mã Phòng Học');
+        $ma_phong_hoc = str_pad(substr($max, -3) + 1, '7', ''.$request->COSO.'P000', STR_PAD_LEFT);
 
         $phonghoc = new Phonghoc([
             'Mã Phòng Học' => $ma_phong_hoc,
             'Sức Chứa' => $request->succhua,
             'Ghi Chú' => $request->ghichu,
-            'branch' => $request->coso
+            'branch' => $request->COSO
         ]);
 
         $phonghoc->save();
@@ -77,7 +77,7 @@ class PhonghocController extends Controller
         if ($phonghoc->get()->count() == 0) {
             return response()->json(['code' => 401, 'message' => 'Không tìm thấy'], 200);
         } else {
-            $result = $phonghoc->join('coso','phonghoc.branch','=','coso.Cơ Sở')->select('phonghoc.*','coso.Tên Cơ Sở')->paginate(15);
+            $result = $phonghoc->join('COSO','phonghoc.branch','=','COSO.Cơ Sở')->select('phonghoc.*','COSO.Tên Cơ Sở')->paginate(15);
             $custom = collect(['code' => 200]);
             $data = $custom->merge($result);
             return response()->json($data, 200)->header('charset','utf-8');

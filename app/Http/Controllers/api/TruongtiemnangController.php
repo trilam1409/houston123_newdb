@@ -17,7 +17,7 @@ class TruongtiemnangController extends Controller
         if (Truongtiemnang::get()->count() == 0){
             return response()->json(['code' => 401],200);
         } else {
-            $truong = Truongtiemnang::join('coso', 'truongtiemnang.Cơ Sở','=','coso.Cơ Sở')->select('truongtiemnang.*', 'coso.Tên Cơ Sở')->paginate(15);
+            $truong = Truongtiemnang::join('COSO', 'TRUONGTIEMNANG.Cơ Sở','=','COSO.Cơ Sở')->select('TRUONGTIEMNANG.*', 'COSO.Tên Cơ Sở')->paginate(15);
             $custom = collect(['code' => 200]);
             $data = $custom->merge($truong);
             return response()->json($data,200)->header('charser','utf-8');
@@ -46,14 +46,14 @@ class TruongtiemnangController extends Controller
         $request->validate([
             'ten' => 'required',
             'diadiem',
-            'coso' => 'required'
+            'COSO' => 'required'
         ]);
 
         if (Truongtiemnang::where('Tên Trường',$request->ten)->get()->count() == 0 ){
             $truong = new Truongtiemnang([
                 'Tên Trường' => $request->ten,
                 'Địa Điểm' => $request->diadiem,
-                'Cơ Sở' => $request->coso
+                'Cơ Sở' => $request->COSO
             ]);
 
             $truong->save();
@@ -72,11 +72,11 @@ class TruongtiemnangController extends Controller
      */
     public function show($str)
     {   
-        $truong = Truongtiemnang::where('ID','like','%'.$str.'%')->orwhere('Tên Trường','like','%'.$str.'%')->orwhere('truongtiemnang.Cơ Sở', 'like', '%'.$str.'%');
+        $truong = Truongtiemnang::where('ID','like','%'.$str.'%')->orwhere('Tên Trường','like','%'.$str.'%')->orwhere('TRUONGTIEMNANG.Cơ Sở', 'like', '%'.$str.'%');
         if ($truong->get()->count() == 0){
             return response()->json(['code' => 401, 'message' => "Không tìm thấy"], 200);
         } else {
-            $truong = $truong->join('coso', 'truongtiemnang.Cơ Sở','=','coso.Cơ Sở')->select('truongtiemnang.*', 'coso.Tên Cơ Sở')->paginate(15);
+            $truong = $truong->join('COSO', 'TRUONGTIEMNANG.Cơ Sở','=','COSO.Cơ Sở')->select('TRUONGTIEMNANG.*', 'COSO.Tên Cơ Sở')->paginate(15);
             $custom = collect(['code' => 200]);
             $data = $custom->merge($truong);
             return response()->json($data, 200)->header('charser','utf-8');
@@ -106,14 +106,14 @@ class TruongtiemnangController extends Controller
         $request->validate([
             'ten' => 'required',
             'diadiem',
-            'coso' => 'required'
+            'COSO' => 'required'
         ]);
 
         $truong = Truongtiemnang::where('ID', $id);
         if ($truong->get()->count() == 0 ){
             return response()->json(['code' => 401, 'messsage' => 'Không tìm thấy'], 200);
         } else {
-            $truong->update(['Tên Trường' => $request->ten, 'Địa Điểm' => $request->diadiem, 'Cơ Sở' => $request->coso]);
+            $truong->update(['Tên Trường' => $request->ten, 'Địa Điểm' => $request->diadiem, 'Cơ Sở' => $request->COSO]);
             //return response()->json(['code' => 200, 'messsage' => 'Cập nhật thành công'], 200);
             return $this->show($id);
         }

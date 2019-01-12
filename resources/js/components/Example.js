@@ -69,8 +69,8 @@ export class GV extends Component {
     content: [
       {id: 1, method: 'GET', url: '/api/giaovien', header: '', params: '', json: '', des: 'Lấy toàn bộ'},
       {id: 2, method: 'GET', url: '/api/giaovien/{str}', header: '', params: '', json: '', des: 'Tìm kiếm'},
-      {id: 3, method: 'PUT', url: '/api/giaovien/{id}', header: 'Content-type: application/json\nX-Requested-With: XMLHttpRequest', params: '{\n "hovaten"\n "hinhanh"\n "permission"\n "available"\n "sdt"\n "diachi"\n "email"\n "cmnd"\n "coso"\n "ngaynghi"\n "lydonghi"\n}', json: '{\n"code": 200,\n"message": "Cập nhật thành công"\n}', des: 'Cập nhật'},
-      {id: 4, method: 'DELETE', url: '/api/giaovien/{id}', header: '', params: '', json: '{\n"code": 200,\n"message": "Xóa thành công"\n}', des: 'Xóa'},
+    //  {id: 3, method: 'PUT', url: '/api/giaovien/{id}', header: 'Content-type: application/json\nX-Requested-With: XMLHttpRequest', params: '{\n "hovaten"\n "hinhanh"\n "permission"\n "available"\n "sdt"\n "diachi"\n "email"\n "cmnd"\n "coso"\n "ngaynghi"\n "lydonghi"\n}', json: '{\n"code": 200,\n"message": "Cập nhật thành công"\n}', des: 'Cập nhật'},
+     // {id: 4, method: 'DELETE', url: '/api/giaovien/{id}', header: '', params: '', json: '{\n"code": 200,\n"message": "Xóa thành công"\n}', des: 'Xóa'},
   
     ] 
 
@@ -99,8 +99,8 @@ export class QL extends Component {
     content: [
       {id: 1, method: 'GET', url: '/api/quanly', header: '', params: '', json: '', des: 'Lấy toàn bộ'},
       {id: 2, method: 'GET', url: '/api/quanly/{str}', header: '', params: '', json: '', des: 'Tìm kiếm'},
-      {id: 3, method: 'PUT', url: '/api/quanly/{id}', header: '', params: '{\n "hovaten"\n "hinhanh"\n "permission"\n "available"\n "sdt"\n "diachi"\n "email"\n "cmnd"\n "chucvu"\n "coso"\n "ngaynghi"\n "lydonghi"\n}', json: '{\n"code": 200,\n"message": "Cập nhật thành công"\n}', des: 'Cập nhật'},
-      {id: 4, method: 'DELETE', url: '/api/quanly/{id}', header: '', params: '', json: '{\n"code": 200,\n"message": "Xóa thành công"\n}', des: 'Xóa'},
+    //  {id: 3, method: 'PUT', url: '/api/quanly/{id}', header: '', params: '{\n "hovaten"\n "hinhanh"\n "permission"\n "available"\n "sdt"\n "diachi"\n "email"\n "cmnd"\n "chucvu"\n "coso"\n "ngaynghi"\n "lydonghi"\n}', json: '{\n"code": 200,\n"message": "Cập nhật thành công"\n}', des: 'Cập nhật'},
+    // {id: 4, method: 'DELETE', url: '/api/quanly/{id}', header: '', params: '', json: '{\n"code": 200,\n"message": "Xóa thành công"\n}', des: 'Xóa'},
     ] 
   }
   render() {

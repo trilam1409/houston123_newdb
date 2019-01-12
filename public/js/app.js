@@ -36291,7 +36291,7 @@ var GV = function (_Component3) {
     }
 
     return _ret3 = (_temp3 = (_this3 = _possibleConstructorReturn(this, (_ref3 = GV.__proto__ || Object.getPrototypeOf(GV)).call.apply(_ref3, [this].concat(args))), _this3), _this3.state = {
-      content: [{ id: 1, method: 'GET', url: '/api/giaovien', header: '', params: '', json: '', des: 'Lấy toàn bộ' }, { id: 2, method: 'GET', url: '/api/giaovien/{str}', header: '', params: '', json: '', des: 'Tìm kiếm' }, { id: 3, method: 'PUT', url: '/api/giaovien/{id}', header: 'Content-type: application/json\nX-Requested-With: XMLHttpRequest', params: '{\n "hovaten"\n "hinhanh"\n "permission"\n "available"\n "sdt"\n "diachi"\n "email"\n "cmnd"\n "coso"\n "ngaynghi"\n "lydonghi"\n}', json: '{\n"code": 200,\n"message": "Cập nhật thành công"\n}', des: 'Cập nhật' }, { id: 4, method: 'DELETE', url: '/api/giaovien/{id}', header: '', params: '', json: '{\n"code": 200,\n"message": "Xóa thành công"\n}', des: 'Xóa' }]
+      content: [{ id: 1, method: 'GET', url: '/api/giaovien', header: '', params: '', json: '', des: 'Lấy toàn bộ' }, { id: 2, method: 'GET', url: '/api/giaovien/{str}', header: '', params: '', json: '', des: 'Tìm kiếm' }]
 
     }, _temp3), _possibleConstructorReturn(_this3, _ret3);
   }
@@ -36333,7 +36333,7 @@ var QL = function (_Component4) {
     }
 
     return _ret4 = (_temp4 = (_this4 = _possibleConstructorReturn(this, (_ref4 = QL.__proto__ || Object.getPrototypeOf(QL)).call.apply(_ref4, [this].concat(args))), _this4), _this4.state = {
-      content: [{ id: 1, method: 'GET', url: '/api/quanly', header: '', params: '', json: '', des: 'Lấy toàn bộ' }, { id: 2, method: 'GET', url: '/api/quanly/{str}', header: '', params: '', json: '', des: 'Tìm kiếm' }, { id: 3, method: 'PUT', url: '/api/quanly/{id}', header: '', params: '{\n "hovaten"\n "hinhanh"\n "permission"\n "available"\n "sdt"\n "diachi"\n "email"\n "cmnd"\n "chucvu"\n "coso"\n "ngaynghi"\n "lydonghi"\n}', json: '{\n"code": 200,\n"message": "Cập nhật thành công"\n}', des: 'Cập nhật' }, { id: 4, method: 'DELETE', url: '/api/quanly/{id}', header: '', params: '', json: '{\n"code": 200,\n"message": "Xóa thành công"\n}', des: 'Xóa' }]
+      content: [{ id: 1, method: 'GET', url: '/api/quanly', header: '', params: '', json: '', des: 'Lấy toàn bộ' }, { id: 2, method: 'GET', url: '/api/quanly/{str}', header: '', params: '', json: '', des: 'Tìm kiếm' }]
     }, _temp4), _possibleConstructorReturn(_this4, _ret4);
   }
 

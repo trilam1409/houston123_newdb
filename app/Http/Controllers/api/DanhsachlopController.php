@@ -18,12 +18,12 @@ class DanhsachlopController extends Controller
         if (Danhsachlop::get()->count() == 0 ){
             return response()->json(['code' => 401, 'message' => 'Không tìm thấy'], 200);
         } else {
-            $ds = Danhsachlop::join('users', 'danhsachhocsinhtronglop.User ID', '=', 'users.User ID')
-            ->join('lophoc', 'danhsachhocsinhtronglop.Mã Lớp', '=', 'lophoc.Mã Lớp')
-            ->join('danhsachmonhoc', 'lophoc.Mã Môn Học', '=', 'danhsachmonhoc.mamon')
-            ->join('giaovien', 'lophoc.Mã Giáo Viên', '=', 'giaovien.Mã Giáo Viên')
-            ->join('coso', 'lophoc.branch', '=', 'coso.Cơ Sở')
-            ->select('lophoc.*', 'coso.Tên Cơ Sở', 'danhsachmonhoc.name', 'giaovien.Họ Và Tên', 'danhsachhocsinhtronglop.*', 'users.Họ Và Tên')
+            $ds = Danhsachlop::join('USERS', 'DANHSACHHOCSINHTRONGLOP.User ID', '=', 'USERS.User ID')
+            ->join('LOPHOC', 'DANHSACHHOCSINHTRONGLOP.Mã Lớp', '=', 'LOPHOC.Mã Lớp')
+            ->join('DANHSACHMONHOC', 'LOPHOC.Mã Môn Học', '=', 'DANHSACHMONHOC.mamon')
+            ->join('GIAOVIEN', 'LOPHOC.Mã Giáo Viên', '=', 'GIAOVIEN.Mã Giáo Viên')
+            ->join('COSO', 'LOPHOC.branch', '=', 'COSO.Cơ Sở')
+            ->select('LOPHOC.*', 'COSO.Tên Cơ Sở', 'DANHSACHMONHOC.name', 'GIAOVIEN.Họ Và Tên', 'DANHSACHHOCSINHTRONGLOP.*', 'USERS.Họ Và Tên')
             ->paginate(15);
             $custom = collect(['code' => 200]);
             $data = $custom->merge($ds);
@@ -81,16 +81,16 @@ class DanhsachlopController extends Controller
      */
     public function show($str)
     {   
-        $ds = Danhsachlop::where('danhsachhocsinhtronglop.User ID', 'like', '%'.$str.'%')->orwhere('danhsachhocsinhtronglop.Mã Lớp','like','%'.$str.'%');
+        $ds = Danhsachlop::where('DANHSACHHOCSINHTRONGLOP.User ID', 'like', '%'.$str.'%')->orwhere('DANHSACHHOCSINHTRONGLOP.Mã Lớp','like','%'.$str.'%');
         if ($ds->get()->count() == 0 ){
             return response()->json(['code' => 401, 'message' => 'Không tìm thấy'], 200);
         } else {
-            $ds = $ds->join('users', 'danhsachhocsinhtronglop.User ID', '=', 'users.User ID')
-            ->join('lophoc', 'danhsachhocsinhtronglop.Mã Lớp', '=', 'lophoc.Mã Lớp')
-            ->join('danhsachmonhoc', 'lophoc.Mã Môn Học', '=', 'danhsachmonhoc.mamon')
-            ->join('giaovien', 'lophoc.Mã Giáo Viên', '=', 'giaovien.Mã Giáo Viên')
-            ->join('coso', 'lophoc.branch', '=', 'coso.Cơ Sở')
-            ->select('lophoc.*', 'coso.Tên Cơ Sở', 'danhsachmonhoc.name', 'giaovien.Họ Và Tên', 'danhsachhocsinhtronglop.*', 'users.Họ Và Tên')
+            $ds = $ds->join('USERS', 'DANHSACHHOCSINHTRONGLOP.User ID', '=', 'USERS.User ID')
+            ->join('LOPHOC', 'DANHSACHHOCSINHTRONGLOP.Mã Lớp', '=', 'LOPHOC.Mã Lớp')
+            ->join('DANHSACHMONHOC', 'LOPHOC.Mã Môn Học', '=', 'DANHSACHMONHOC.mamon')
+            ->join('GIAOVIEN', 'LOPHOC.Mã Giáo Viên', '=', 'GIAOVIEN.Mã Giáo Viên')
+            ->join('COSO', 'LOPHOC.branch', '=', 'COSO.Cơ Sở')
+            ->select('LOPHOC.*', 'COSO.Tên Cơ Sở', 'DANHSACHMONHOC.name', 'GIAOVIEN.Họ Và Tên', 'DANHSACHHOCSINHTRONGLOP.*', 'USERS.Họ Và Tên')
             ->paginate(15);
             $custom = collect(['code' => 200]);
             $data = $custom->merge($ds);
@@ -159,18 +159,18 @@ class DanhsachlopController extends Controller
     }
 
     public function classNullStudent($id){
-        $lophoc = Danhsachlop::where('User ID','!=' ,$id);
-        if ($lophoc->count() == 0 ){
+        $LOPHOC = Danhsachlop::where('User ID','!=' ,$id);
+        if ($LOPHOC->count() == 0 ){
             return response()->json(['code' => 401, 'message' => 'Không tìm thấy lớp'], 200);
         } else {
-            $lophoc = $lophoc->groupBy('danhsachhocsinhtronglop.Mã Lớp')
-            ->join('lophoc','danhsachhocsinhtronglop.Mã Lớp','=','lophoc.Mã Lớp')
-            ->join('danhsachmonhoc', 'lophoc.Mã Môn Học', '=', 'danhsachmonhoc.mamon')
-            ->join('giaovien', 'lophoc.Mã Giáo Viên', '=', 'giaovien.Mã Giáo Viên')
-            ->join('coso', 'lophoc.branch', '=', 'coso.Cơ Sở')
-            ->select('lophoc.*', 'coso.Tên Cơ Sở','danhsachmonhoc.name','giaovien.Họ Và Tên')->paginate(15);
+            $LOPHOC = $LOPHOC->groupBy('DANHSACHHOCSINHTRONGLOP.Mã Lớp')
+            ->join('LOPHOC','DANHSACHHOCSINHTRONGLOP.Mã Lớp','=','LOPHOC.Mã Lớp')
+            ->join('DANHSACHMONHOC', 'LOPHOC.Mã Môn Học', '=', 'DANHSACHMONHOC.mamon')
+            ->join('GIAOVIEN', 'LOPHOC.Mã Giáo Viên', '=', 'GIAOVIEN.Mã Giáo Viên')
+            ->join('COSO', 'LOPHOC.branch', '=', 'COSO.Cơ Sở')
+            ->select('LOPHOC.*', 'COSO.Tên Cơ Sở','DANHSACHMONHOC.name','GIAOVIEN.Họ Và Tên')->paginate(15);
             $custom = collect(['code' => 200]);
-            $data = $custom->merge($lophoc);
+            $data = $custom->merge($LOPHOC);
             return response()->json($data, 200)->header('charset','utf-8');
         }
     }

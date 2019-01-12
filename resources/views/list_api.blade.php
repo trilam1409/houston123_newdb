@@ -70,7 +70,7 @@
                 <div id="dkmonhoc" class="field-body"></div>
             </div> -->
             <div class="field-group">
-                <div class="field-title"><p>Chi tiết lớp học</p></div>
+                <div class="field-title"><p style="color: red">Chi tiết lớp học (Đang fix)</p></div>
                 <div id="chitietlop" class="field-body"></div>
             </div>
             <!-- <div class="field-group">

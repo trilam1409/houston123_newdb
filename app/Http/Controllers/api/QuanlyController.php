@@ -19,7 +19,7 @@ class QuanlyController extends Controller
         if(Quanly::get()->count() == 0){
             return response()->json(['code' => 401, 'message' => 'Không tìm thấy'],200);
        } else{
-            $result = Quanly::join('coso', 'quanly.Cơ Sở', '=', 'coso.Cơ Sở')->select('quanly.*', 'coso.Tên Cơ Sở')->paginate(15);
+            $result = Quanly::join('COSO', 'QUANLY.Cơ Sở', '=', 'COSO.Cơ Sở')->select('QUANLY.*', 'COSO.Tên Cơ Sở')->paginate(15);
             $custom = collect(['code' => 200]);
             $data = $custom->merge($result);
             return response()->json($data, 200)->header('charset', 'utf-8');
@@ -57,12 +57,12 @@ class QuanlyController extends Controller
      */
     public function show($str)
     {
-       $quanly = Quanly::where('Mã Quản Lý','like','%'.$str.'%')->orWhere('Họ Và Tên','like','%'.$str.'%')->orWhere('quanly.Cơ Sở','like','%'.$str.'%');
+       $QUANLY = Quanly::where('Mã Quản Lý','like','%'.$str.'%')->orWhere('Họ Và Tên','like','%'.$str.'%')->orWhere('QUANLY.Cơ Sở','like','%'.$str.'%');
   
-       if($quanly->get()->count() == 0){
+       if($QUANLY->get()->count() == 0){
             return response()->json(['code' => 401, 'message' => 'Không tìm thấy'], 200);
        } else{
-            $result = $quanly->join('coso', 'quanly.Cơ Sở', '=', 'coso.Cơ Sở')->select('quanly.*', 'coso.Tên Cơ Sở')->paginate(15);
+            $result = $QUANLY->join('COSO', 'QUANLY.Cơ Sở', '=', 'COSO.Cơ Sở')->select('QUANLY.*', 'COSO.Tên Cơ Sở')->paginate(15);
             $custom = collect(['code' => 200]);
             $data = $custom->merge($result);
             return response()->json($data, 200)->header('charset', 'utf-8');
@@ -88,38 +88,38 @@ class QuanlyController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'hovaten' => 'nullable|string',
-            'hinhanh' => 'nullable|string',
-            'permission' => 'string',
-            'available' => 'numeric',
-            'sdt' => 'nullable|numeric',
-            'diachi' => 'nullable|string',
-            'email' => 'nullable|email',
-            'cmnd' => 'numeric',
-            'chucvu' => 'nullable|string',
-            'ngaynghi' => 'nullable|date',
-            'lydonghi' => 'nullable|string',
-            'coso' => 'nullable|string'
-        ]);
+    // public function update(Request $request, $id)
+    // {
+    //     $request->validate([
+    //         'hovaten' => 'nullable|string',
+    //         'hinhanh' => 'nullable|string',
+    //         'permission' => 'string',
+    //         'available' => 'numeric',
+    //         'sdt' => 'nullable|numeric',
+    //         'diachi' => 'nullable|string',
+    //         'email' => 'nullable|email',
+    //         'cmnd' => 'numeric',
+    //         'chucvu' => 'nullable|string',
+    //         'ngaynghi' => 'nullable|date',
+    //         'lydonghi' => 'nullable|string',
+    //         'COSO' => 'nullable|string'
+    //     ]);
 
-        if(Quanly::where('Mã Quản Lý',$id)->count() == 1){
-            Quanly::where('Mã Quản Lý',$id)->update(['Họ Và Tên' => $request->hovaten, 'Hình Ảnh' => $request->hinhanh, 'Số Điện Thoại' => $request->sdt,
-        'Địa Chỉ' => $request->diachi, 'email' => $request->email, 'CMND' => $request->cmnd, 'Chức Vụ' => $request->chucvu, 'Ngày Nghỉ' => $request->ngaynghi,
-        'Lý Do Nghỉ' => $request->lydonghi, 'Cơ Sở' => $request->coso]);
+    //     if(Quanly::where('Mã Quản Lý',$id)->count() == 1){
+    //         Quanly::where('Mã Quản Lý',$id)->update(['Họ Và Tên' => $request->hovaten, 'Hình Ảnh' => $request->hinhanh, 'Số Điện Thoại' => $request->sdt,
+    //     'Địa Chỉ' => $request->diachi, 'email' => $request->email, 'CMND' => $request->cmnd, 'Chức Vụ' => $request->chucvu, 'Ngày Nghỉ' => $request->ngaynghi,
+    //     'Lý Do Nghỉ' => $request->lydonghi, 'Cơ Sở' => $request->COSO]);
         
-        Account::where('account_id',$id)->update(['fullname' => $request->hovaten,'permission' => $request->permission, 'khuvuc' => $request->coso,
-         'available' => $request->available, 'hinhanh' => $request->hinhanh, 'loaiquanly' => $request->chucvu]);
-        return response()->json(['code' => 200, 'message' => 'Cập nhật thành công'], 200);
+    //     Account::where('account_id',$id)->update(['fullname' => $request->hovaten,'permission' => $request->permission, 'khuvuc' => $request->COSO,
+    //      'available' => $request->available, 'hinhanh' => $request->hinhanh, 'loaiQUANLY' => $request->chucvu]);
+    //     return response()->json(['code' => 200, 'message' => 'Cập nhật thành công'], 200);
 
-        } else {
-            return response()->json(['code' => 401, 'message' => 'Không tìm thấy'], 200);
-        }
+    //     } else {
+    //         return response()->json(['code' => 401, 'message' => 'Không tìm thấy'], 200);
+    //     }
 
        
-    }
+    // }
 
     /**
      * Remove the specified resource from storage.
@@ -127,16 +127,16 @@ class QuanlyController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {   
-        $exist = Quanly::where('Mã Quản Lý',$id)->count();
-        if ($exist == 0){
-            return response()->json(['code' => 401, 'message' => "Không tìm thấy"], 200);
-        } else if ($exist == 1){
-            Quanly::where('Mã Quản Lý',$id)->delete();
-            Account::where('account_id', $id)->delete();
-            return response()->json(['code' => 200, 'message' => "Xóa thành công"], 200);
-        }
+    // public function destroy($id)
+    // {   
+    //     $exist = Quanly::where('Mã Quản Lý',$id)->count();
+    //     if ($exist == 0){
+    //         return response()->json(['code' => 401, 'message' => "Không tìm thấy"], 200);
+    //     } else if ($exist == 1){
+    //         Quanly::where('Mã Quản Lý',$id)->delete();
+    //         Account::where('account_id', $id)->delete();
+    //         return response()->json(['code' => 200, 'message' => "Xóa thành công"], 200);
+    //     }
 
-    }
+    // }
 }
