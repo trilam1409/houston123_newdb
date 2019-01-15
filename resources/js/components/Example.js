@@ -37,13 +37,13 @@ export class Marketing extends Component {
 export default class Account extends Component {
   state = {
     content: [
-      {id: 1, method: 'POST', url: '/api/reigster', header: '', params: '{\n "fullname"\n "permission"\n "khuvuc"\n "loginID"\n "loginPASS"\n}', json: '{\n "code": 200,\n "account_id": "QL0148"\n}', des: 'Đăng ký tài khoản'},
-      {id: 2, method: 'POST', url: '/api/reigster_info', header: '', params: '{\n "account_id"\n "available"\n "hinhanh"\n "sdt"\n "diachi"\n "loaiquanly"\n "email"\n "cmnd"\n}', json: '{\n "code": 200,\n "message": "Tạo giáo viên thành công"\n}\n{\n "code": 200,\n "message": "Tạo quản lý thành công"\n}', des: 'Sau khi đăng ký tài khoản thành công chuyển trang này để khai báo thông tin'},
-      {id: 3, method: 'POST', url: '/api/login', header: '', params: '{\n "loginID"\n "loginPASS"\n}', json: '{\n "code": 200,\n "token": ""\n}', des: 'Đăng nhập'},
-      {id: 4, method: 'GET', url: '/api/logout', header: 'Authorization: Bearer <token>', params:'', json: '{\n "code": 200,\n "message": "Đăng xuất thành công"\n}', des: 'Đăng xuất'},
-      {id: 5, method: 'GET', url: '/api/account', header: 'Authorization: Bearer <token>', params: '', json: '', des: 'Trả về thông tin của tài khoản'},
-      {id: 6, method: 'POST', url: '/api/change_pass', header: 'Authorization: Bearer <token>', params: '{\n "pass_old"\n "pass_new"\n "pass_confirm"\n}', json: '{\n "code": 422,\n "message": "Mật khẩu cũ không đúng"\n}\n{\n "code": 422,\n "message": "Mật khẩu xác nhận không trùng nhau"\n}\n{\n "code": 200,\n "message": "Thay đổi mật khẩu thành công"\n}', des: 'Thay đổi mật khẩu'},
-      {id: 7, method: 'PUT', url: '/api/account',  header: 'Authorization: Bearer <token>', params: '{\n "HoVaTen"\n "Cmnd"\n "Sdt"\n "Email"\n "DiaChi"\n}', json: '{\n "code": 200,\n "message": "Cập nhật thành công"\n}\n', des: 'Cập nhật tài khoản'},
+      {id: 1, method: 'POST', url: '/api/reigster', header: '', params: '{\n "fullname"\n "chucvu" (API) (thay đổi)\n "khuvuc" (API)\n "loginID"\n "loginPASS"\n}', json: '{\n "code": 200,\n "message": "Tạo tài khoản thành công"\n}', des: 'Đăng ký tài khoản, muốn nhập thêm thông tin thì tiến hành cập nhật\n"chucvu" /api/loaiql - "Loại Quản Lý"\n"khuvuc" /api/coso - "Tên Cơ Sở"'},
+     // {id: 2, method: 'POST', url: '/api/reigster_info', header: '', params: '{\n "account_id"\n "available"\n "hinhanh"\n "sdt"\n "diachi"\n "loaiquanly"\n "email"\n "cmnd"\n}', json: '{\n "code": 200,\n "message": "Tạo giáo viên thành công"\n}\n{\n "code": 200,\n "message": "Tạo quản lý thành công"\n}', des: 'Sau khi đăng ký tài khoản thành công chuyển trang này để khai báo thông tin'},
+      {id: 2, method: 'POST', url: '/api/login', header: '', params: '{\n "loginID"\n "loginPASS"\n}', json: '{\n "code": 200,\n "token": ""\n}', des: 'Đăng nhập'},
+      {id: 3, method: 'GET', url: '/api/logout', header: 'Authorization: Bearer <token>', params:'', json: '{\n "code": 200,\n "message": "Đăng xuất thành công"\n}', des: 'Đăng xuất'},
+      {id: 4, method: 'GET', url: '/api/account', header: 'Authorization: Bearer <token>', params: '', json: '', des: 'Trả về thông tin của tài khoản'},
+      {id: 5, method: 'POST', url: '/api/change_pass', header: 'Authorization: Bearer <token>', params: '{\n "pass_old"\n "pass_new"\n "pass_confirm"\n}', json: '{\n "code": 422,\n "message": "Mật khẩu cũ không đúng"\n}\n{\n "code": 422,\n "message": "Mật khẩu xác nhận không trùng nhau"\n}\n{\n "code": 200,\n "message": "Thay đổi mật khẩu thành công"\n}', des: 'Thay đổi mật khẩu'},
+      {id: 6, method: 'PUT', url: '/api/account',  header: 'Authorization: Bearer <token>', params: '{\n "HoVaTen"\n "NgaySinh (thêm mới)"\n "Cmnd"\n "Sdt"\n "Email"\n "DiaChi"\n}', json: '{\n "code": 200,\n "message": "Cập nhật thành công"\n}\n', des: 'Cập nhật tài khoản'},
 
     ] 
   }
@@ -125,8 +125,8 @@ export class HocVien extends Component {
     content: [
       {id: 1, method: 'GET', url: '/api/hocvien', header: '', params: '', json: '', des: 'Lấy toàn bộ'},
       {id: 2, method: 'GET', url: '/api/hocvien/{str}', header: '', params: '', json: '', des: 'Tìm kiếm'},
-      {id: 3, method: 'POST', url: '/api/hocvien', header: '', params: '{\n "hovaten" **\n "hinhanh"\n "lop" **\n "sdt"\n "diachi"\n "ngaysinh"\n "hoclucvao"\n" ngaynhaphoc"\n "truonghocchinh"\n "hohang"\n "tenNT1"\n "ngheNT1"\n "sdtNT1"\n "tenNT2"\n "ngheNT2"\n "sdtNT2"\n "lydobietHouston" **\n "chinhthuc" **\n "coso" **\n}', json: '{\n"code": 200,\n"message": "Tạo thành công"\n}', des: 'Tạo mới'},
-      //{id: 4, method: 'POST', url: '/api/hocvien{id}', header: '', params: '{\n "hovaten"\n "hinhanh"\n "lop"\n "sdt"\n "diachi"\n "ngaysinh"\n "hoclucvao"\n" ngaynhaphoc"\n "truonghocchinh"\n "hohang"\n "tenNT1"\n "ngheNT1"\n "sdtNT1"\n "tenNT2"\n "ngheNT2"\n "sdtNT2"\n "lydobietHouston"\n "chinhthuc"\n "coso"\n}', json: '{\n"code": 200,\n"message": "Cập nhật thành công"\n}', des: 'Cập nhật'},
+      {id: 3, method: 'POST', url: '/api/hocvien', header: '', params: '{\n "hovaten" **\n "hinhanh"\n "lop" **\n "sdt"\n "diachi"\n "ngaysinh"\n "hoclucvao"\n" ngaynhaphoc"\n "truonghocchinh"\n "hohang"\n "tenNT1"\n "ngheNT1"\n "sdtNT1"\n "tenNT2"\n "ngheNT2"\n "sdtNT2"\n "lydobietHouston" **\n "chinhthuc" **\n "coso" ** (API)\n}', json: '{\n"code": 200,\n"message": "Tạo thành công"\n}', des: 'Tạo mới\n"coso" /api/coso - "Tên Cơ Sở"'},
+      {id: 4, method: 'PUT', url: '/api/hocvien ', header: '', params: '{\n "hovaten"\n "hinhanh"\n "lop"\n "sdt"\n "diachi"\n "ngaysinh"\n "hoclucvao"\n "ngaynhaphoc"\n "truonghocchinh"\n "hohang"\n "tenNT1"\n "ngheNT1"\n "sdtNT1"\n "tenNT2"\n "ngheNT2"\n "sdtNT2"\n "lydobietHouston"\n "chinhthuc"\n "coso" (API)\n "NgayNghiHoc"\n "LyDoNghi"\n}', json: 'Trả về thông tin vừa cập nhật', des: 'Cập nhật\n"coso" /api/coso - "Tên Cơ Sở"'},
       {id: 5, method: 'DELETE', url: '/api/hocvien/{id}', header: '', params: '', json: '{\n"code": 200,\n"message": "Xóa thành công"\n}', des: 'Xóa'},
     ] 
   }

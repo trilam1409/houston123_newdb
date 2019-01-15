@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use DB;
 use App\Hocvien;
+use App\Coso;
 
 class HocvienController extends Controller
 {
@@ -18,7 +19,7 @@ class HocvienController extends Controller
         if (Hocvien::get()->count() == 0) {
             return response()->json(['code' => 401, 'message' => 'Không tìm thấy'], 200);
         } else {
-            $hocvien = Hocvien::join('COSO', 'USERS.Cơ Sở', '=', 'COSO.Cơ Sở')->select('USERS.*', 'COSO.Tên Cơ Sở')->paginate(30);
+            $hocvien = Hocvien::join('COSO', 'USERS.Cơ Sở', '=', 'COSO.Cơ Sở')->select('USERS.*', 'COSO.Tên Cơ Sở')->orderBy('ID','desc')->paginate(30);
             $custom = collect(['code' => 200]);
             $data = $custom->merge($hocvien);
             return response()->json($data, 200)->header('charset','utf-8');
@@ -46,29 +47,29 @@ class HocvienController extends Controller
     {
         $request->validate([
             'hovaten' => 'required|string',
-            'hinhanh' => 'nulable|string',
+            'hinhanh' => 'nullable|string',
             'lop' => 'required|string',
             'sdt' => 'nullable|numeric',
-            'diachi' => 'nulable|string',
+            'diachi' => 'nullable|string',
             'ngaysinh' => 'nullable|date',
             'hoclucvao' => 'nullable|string',
-            'ngaynhaphoc' => 'date',
+            'ngaynhaphoc' => 'nullable|date',
             'truonghocchinh' => 'nullable|string',
-            'hohang' => 'string',
-            'tenNT1' => 'string',
-            'ngheNT1' => 'string',
-            'sdtNT1' => 'numeric',
-            'tenNT2' => 'string',
-            'ngheNT2' => 'string',
-            'sdtNT2' => 'numeric',
-            'lydobietHouson' => 'required|string',
+            'tenNT1' => 'nullable|string',
+            'ngheNT1' => 'nullable|string',
+            'sdtNT1' => 'nullable|numeric',
+            'tenNT2' => 'nullable|string',
+            'ngheNT2' => 'nullable|string',
+            'sdtNT2' => 'nullable|numeric',
+            'lydobietHouston' => 'required|string',
             'chinhthuc' => 'required|numeric',
-            'COSO' => 'required|string'
+            'coso' => 'required|string'
         ]);
 
         $id = Hocvien::max('User ID');
         $id_new = str_pad(substr($id, -5) + 1, '7', 'HT00000', STR_PAD_LEFT);
-        $hocvien = new Hocvien ([
+        $maCoSo = CoSo::select('Cơ Sở')->where('Tên Cơ Sở',$request->coso)->value('Cơ Sở');
+         $hocvien = new Hocvien ([
             'User ID' => $id_new,
             'Họ Và Tên' => $request->hovaten,
             'Hình Ảnh' => $request->hinhanh,
@@ -78,22 +79,21 @@ class HocvienController extends Controller
             'Ngày Sinh' => $request->ngaysinh,
             'Học Lực Đầu Vào' => $request->hoclucvao,
             'Ngày Nhập Học' => $request->ngaynhaphoc,
-            'Trường Học Chính Khóa' => $request->truonghocchinh,
-            'Họ Hàng' => $request->hohang,
+            'Tên Trường' => $request->truonghocchinh,
             'Họ Và Tên (NT1)' => $request->tenNT1,
             'Số Điện Thoại (NT1)' => $request->sdtNT1,
-            'Nghê Nghiệp (NT1)' => $request->ngheNT1,
+            'Nghề Nghiệp (NT1)' => $request->ngheNT1,
             'Họ Và Tên (NT2)' => $request->tenNT2,
             'Số Điện Thoại (NT2)' => $request->sdtNT2,
-            'Nghê Nghiệp (NT2)' => $request->ngheNT2,
-            'Biết Houston123 Như Thế Nào' => $request->lydobietHouson,
+            'Nghề Nghiệp (NT2)' => $request->ngheNT2,
+            'Biết Houston123 Như Thế Nào' => $request->lydobietHouston,
             'Chính Thức' => $request->chinhthuc,
-            'Cơ Sở' => $request->COSO
-        ]);
+            'Cơ Sở' => $maCoSo
+         ]);
+        
 
         $hocvien->save();
-        //return response()->json('1', 200);
-        return $this->show($id_new);
+        return response()->json(['code' => 200, 'message' => 'Tạo học viên thành công'], 200);
     }
 
     /**
@@ -108,7 +108,7 @@ class HocvienController extends Controller
         if ($hocvien->get()->count() == 0) {
             return response()->json(['code' => 401, 'message' => 'Không tìm thấy'], 200);
         } else {
-            $result = $hocvien->join('COSO', 'USERS.Cơ Sở', '=', 'COSO.Cơ Sở')->select('USERS.*', 'COSO.Tên Cơ Sở')->paginate(30);
+            $result = $hocvien->join('COSO', 'USERS.Cơ Sở', '=', 'COSO.Cơ Sở')->select('USERS.*', 'COSO.Tên Cơ Sở')->orderBy('ID','desc')->paginate(30);
             $custom = collect(['code' => 200]);
             $data = $custom->merge($result);
             return response()->json($data, 200)->header('charset','utf-8');
@@ -135,7 +135,60 @@ class HocvienController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'hovaten' => 'required|string',
+            'hinhanh' => 'nullable|string',
+            'lop' => 'required|string',
+            'sdt' => 'nullable|numeric',
+            'diachi' => 'nullable|string',
+            'ngaysinh' => 'nullable|date',
+            'hoclucvao' => 'nullable|string',
+            'ngaynhaphoc' => 'nullable|date',
+            'truonghocchinh' => 'nullable|string',
+            'tenNT1' => 'nullable|string',
+            'ngheNT1' => 'nullable|string',
+            'sdtNT1' => 'nullable|numeric',
+            'tenNT2' => 'nullable|string',
+            'ngheNT2' => 'nullable|string',
+            'sdtNT2' => 'nullable|numeric',
+            'lydobietHouston' => 'required|string',
+            'chinhthuc' => 'required|numeric',
+            'coso' => 'required|string',
+            'NgayNghiHoc' => 'nullable|date',
+            'LyDoNghi' => 'nullable|string'
+        ]);
+            
+   
+
+        $hocvien = Hocvien::where('User ID',$id);
+        if($hocvien->get()->count() == 0){
+            return response()->json(['code' => 401, 'message' => 'Không tìm thấy'], 200);
+        } else {
+            $maCoSo = Coso::select('Cơ Sở')->where('Tên Cơ Sở',$request->coso)->value('Cơ Sở');
+            $hocvien->update(['Họ Và Tên' => $request->hovaten,
+            'Hình Ảnh' => $request->hinhanh,
+            'Lớp' => $request->lop,
+            'Số Điện Thoại' => $request->sdt,
+            'Địa Chỉ' => $request->diachi,
+            'Ngày Sinh' => $request->ngaysinh,
+            'Học Lực Đầu Vào' => $request->hoclucvao,
+            'Ngày Nhập Học' => $request->ngaynhaphoc,
+            'Tên Trường' => $request->truonghocchinh,
+            'Họ Và Tên (NT1)' => $request->tenNT1,
+            'Số Điện Thoại (NT1)' => $request->sdtNT1,
+            'Nghề Nghiệp (NT1)' => $request->ngheNT1,
+            'Họ Và Tên (NT2)' => $request->tenNT2,
+            'Số Điện Thoại (NT2)' => $request->sdtNT2,
+            'Nghề Nghiệp (NT2)' => $request->ngheNT2,
+            'Biết Houston123 Như Thế Nào' => $request->lydobietHouston,
+            'Chính Thức' => $request->chinhthuc,
+            'Cơ Sở' => $maCoSo,
+            'Ngày Nghỉ Học' => $request->NgayNghiHoc,
+            'Lý Do Nghỉ' => $request->LyDoNghi
+            ]);
+
+            return $this->show($id);
+        }
     }
 
     /**

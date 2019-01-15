@@ -64,8 +64,9 @@ class AccountController extends Controller
                     'Mã Quản Lý' => $account_id_new,
                     'Họ Và Tên' => $request->fullname,
                     'Cơ Sở' => $maKhuVuc,
-                    'Chức Vụ' => $request->chucvu,
                     'permission' => $maQuanLy,
+                    'Chức Vụ' => $request->chucvu
+                    
                 ]);
                 $quanly->save();
             }
@@ -177,13 +178,15 @@ class AccountController extends Controller
                 
                 if( Giaovien::where('Mã Giáo Viên', $account_token->user_id)->count() == 1){
                     $account = Account::where('account_id',$account_token->user_id)->join('GIAOVIEN','account_id', '=', 'GIAOVIEN.Mã Giáo Viên')
-                    ->select('ACCOUNT.account_id','GIAOVIEN.*','ACCOUNT.permission')->get();
+                    ->join('COSO', 'ACCOUNT.khuvuc', '=', 'COSO.Cơ Sở')
+                    ->select('ACCOUNT.account_id','GIAOVIEN.*','COSO.Tên Cơ Sở')->get();
                     return response()->json(['code' => 200, 'data' => $account])->header('charset','utf-8');
                 } else if (Quanly::where('Mã Quản Lý', $account_token->user_id)->count() == 1){
                     $account = Account::where('account_id',$account_token->user_id)->join('QUANLY','account_id', '=', 'QUANLY.Mã Quản Lý')
-                    ->select('ACCOUNT.account_id','QUANLY.*','ACCOUNT.permission')->get();
+                    ->join('COSO', 'ACCOUNT.khuvuc', '=', 'COSO.Cơ Sở')
+                    ->select('ACCOUNT.account_id','QUANLY.*','COSO.Tên Cơ Sở')->get();
                     return response()->json(['code' => 200, 'data' => $account])->header('charset','utf-8');
-                } 
+                }   
             } else{
                 return response()->json(['code' => 401, 'message' => 'Lần đăng nhập trước đã hết hạn'], 401);
             }
@@ -242,6 +245,14 @@ class AccountController extends Controller
     }
 
     public function update(Request $request){
+
+        $request->validate([
+            'HoVaTen' => 'required|string',
+            'Sdt' => 'nullable|numeric',
+            'Cmnd' => 'nullable|numeric',
+            'DiaChi' => 'nullable|string',
+            'NgaySinh' => 'nullable|date' 
+        ]);
         $value = $request->bearerToken();
         $id = (new Parser())->parse($value)->getHeader('jti');
        
@@ -265,13 +276,13 @@ class AccountController extends Controller
         $gv = Giaovien::where('Mã Giáo Viên',$account_token->user_id);
 
         if ($ql->get()->count() == 1){
-            $ql->update(['Họ Và Tên' => $request->HoVaTen, 'Số Điện Thoại' => $request->Sdt,
-             'Địa Chỉ' => $request->DiaChi, 'Email' => $request->Email, 'CMND' => $request->Cmnd]);
+            $ql->update(['Họ Và Tên' => $request->HoVaTen, 'Số Điện Thoại' => $request->Sdt, 'Ngày Sinh' => $request->NgaySinh, 
+            'Địa Chỉ' => $request->DiaChi, 'Email' => $request->Email, 'CMND' => $request->Cmnd]);
              //return response()->json(['code' => 200, 'message' => 'Cập nhật thành công'], 200);
              return $this->index($request);
         } else if ($gv->get()->count() == 1){
-            $gv->update(['Họ Và Tên' => $request->HoVaTen, 'Số Điện Thoại' => $request->Sdt,
-             'Địa Chỉ' => $request->DiaChi, 'Email' => $request->Email, 'CMND' => $request->Cmnd]);
+            $gv->update(['Họ Và Tên' => $request->HoVaTen, 'Số Điện Thoại' => $request->Sdt,'Ngày Sinh' => $request->NgaySinh, 
+            'Địa Chỉ' => $request->DiaChi, 'Email' => $request->Email, 'CMND' => $request->Cmnd]);
             // return response()->json(['code' => 200, 'message' => 'Cập nhật thành công'], 200);
              return $this->index($request);
         }

@@ -19,7 +19,7 @@ class QuanlyController extends Controller
         if(Quanly::get()->count() == 0){
             return response()->json(['code' => 401, 'message' => 'Không tìm thấy'],200);
        } else{
-            $result = Quanly::join('COSO', 'QUANLY.Cơ Sở', '=', 'COSO.Cơ Sở')->select('QUANLY.*', 'COSO.Tên Cơ Sở')->paginate(15);
+            $result = Quanly::join('COSO', 'QUANLY.Cơ Sở', '=', 'COSO.Cơ Sở')->select('QUANLY.*', 'COSO.Tên Cơ Sở')->orderBy('Mã Quản Lý','desc')->paginate(15);
             $custom = collect(['code' => 200]);
             $data = $custom->merge($result);
             return response()->json($data, 200)->header('charset', 'utf-8');
@@ -62,7 +62,7 @@ class QuanlyController extends Controller
        if($QUANLY->get()->count() == 0){
             return response()->json(['code' => 401, 'message' => 'Không tìm thấy'], 200);
        } else{
-            $result = $QUANLY->join('COSO', 'QUANLY.Cơ Sở', '=', 'COSO.Cơ Sở')->select('QUANLY.*', 'COSO.Tên Cơ Sở')->paginate(15);
+            $result = $QUANLY->join('COSO', 'QUANLY.Cơ Sở', '=', 'COSO.Cơ Sở')->select('QUANLY.*', 'COSO.Tên Cơ Sở')->orderBy('Mã Quản Lý','desc')->paginate(15);
             $custom = collect(['code' => 200]);
             $data = $custom->merge($result);
             return response()->json($data, 200)->header('charset', 'utf-8');

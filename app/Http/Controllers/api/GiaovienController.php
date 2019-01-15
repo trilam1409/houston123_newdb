@@ -21,7 +21,7 @@ class GiaovienController extends Controller
             return response()->json(['code' => 401, 'message' => 'Không tìm thấy'], 200);
         } else {
             $GIAOVIEN = Giaovien::join('ACCOUNT', 'GIAOVIEN.Mã Giáo Viên', '=','ACCOUNT.ACCOUNT_id')->join('COSO', 'GIAOVIEN.Cơ Sở', '=', 'COSO.Cơ Sở')
-            ->select('GIAOVIEN.*', 'COSO.Tên Cơ Sở', 'ACCOUNT.available')->paginate(15);
+            ->select('GIAOVIEN.*', 'COSO.Tên Cơ Sở', 'ACCOUNT.available')->orderBy('Mã Giáo Viên','desc')->paginate(15);
             $custom = collect(['code' => 200]);
             $data = $custom->merge($GIAOVIEN);
             return response()->json($data, 200)->header('charset', 'utf-8');
@@ -64,7 +64,7 @@ class GiaovienController extends Controller
             return response()->json(['code' => 401, 'message' => 'Không tìm thấy'], 200);
         } else {
             $result = $user->join('ACCOUNT', 'GIAOVIEN.Mã Giáo Viên', '=','ACCOUNT.ACCOUNT_id')->join('COSO', 'GIAOVIEN.Cơ Sở', '=', 'COSO.Cơ Sở')
-            ->select('GIAOVIEN.*', 'COSO.Tên Cơ Sở', 'ACCOUNT.available')->paginate(15);
+            ->select('GIAOVIEN.*', 'COSO.Tên Cơ Sở', 'ACCOUNT.available')->orderBy('Mã Giáo Viên','desc')->paginate(15);
             $custom = collect(['code' => 200]);
             $data = $custom->merge($result);
             return response()->json($data, 200)->header('charset', 'utf-8');
