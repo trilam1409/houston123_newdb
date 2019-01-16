@@ -34,8 +34,9 @@ Route::group(['namespace' => 'api'], function () {
         Route::resource('phonghoc', 'PhonghocController');
         Route::resource('dkmonhoc', 'DKmonhocController');
         Route::post('dktrongoi', 'DKmonhocController@store_trongoi');
-        Route::resource('chitietlop', 'DanhsachlopController');
+        //Route::resource('chitietlop', 'DanhsachlopController');
         Route::resource('giaovien', 'GiaovienController');
+        Route::resource('chi-tiet-lop', 'ChiTietLopController');
         Route::resource('hocvien', 'HocvienController');
         Route::resource('quanly', 'QuanlyController');
         Route::resource('coso', 'CosoController');

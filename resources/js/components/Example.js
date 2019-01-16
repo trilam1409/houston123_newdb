@@ -126,7 +126,7 @@ export class HocVien extends Component {
       {id: 1, method: 'GET', url: '/api/hocvien', header: '', params: '', json: '', des: 'Lấy toàn bộ'},
       {id: 2, method: 'GET', url: '/api/hocvien/{str}', header: '', params: '', json: '', des: 'Tìm kiếm'},
       {id: 3, method: 'POST', url: '/api/hocvien', header: '', params: '{\n "hovaten" **\n "hinhanh"\n "lop" **\n "sdt"\n "diachi"\n "ngaysinh"\n "hoclucvao"\n" ngaynhaphoc"\n "truonghocchinh"\n "hohang"\n "tenNT1"\n "ngheNT1"\n "sdtNT1"\n "tenNT2"\n "ngheNT2"\n "sdtNT2"\n "lydobietHouston" **\n "chinhthuc" **\n "coso" ** (API)\n}', json: '{\n"code": 200,\n"message": "Tạo thành công"\n}', des: 'Tạo mới\n"coso" /api/coso - "Tên Cơ Sở"'},
-      {id: 4, method: 'PUT', url: '/api/hocvien ', header: '', params: '{\n "hovaten"\n "hinhanh"\n "lop"\n "sdt"\n "diachi"\n "ngaysinh"\n "hoclucvao"\n "ngaynhaphoc"\n "truonghocchinh"\n "hohang"\n "tenNT1"\n "ngheNT1"\n "sdtNT1"\n "tenNT2"\n "ngheNT2"\n "sdtNT2"\n "lydobietHouston"\n "chinhthuc"\n "coso" (API)\n "NgayNghiHoc"\n "LyDoNghi"\n}', json: 'Trả về thông tin vừa cập nhật', des: 'Cập nhật\n"coso" /api/coso - "Tên Cơ Sở"'},
+      {id: 4, method: 'PUT', url: '/api/hocvien/{id}', header: '', params: '{\n "hovaten"\n "hinhanh"\n "lop"\n "sdt"\n "diachi"\n "ngaysinh"\n "hoclucvao"\n "ngaynhaphoc"\n "truonghocchinh"\n "hohang"\n "tenNT1"\n "ngheNT1"\n "sdtNT1"\n "tenNT2"\n "ngheNT2"\n "sdtNT2"\n "lydobietHouston"\n "chinhthuc"\n "coso" (API)\n "NgayNghiHoc"\n "LyDoNghi"\n}', json: 'Trả về thông tin vừa cập nhật', des: 'Cập nhật\n"coso" /api/coso - "Tên Cơ Sở"'},
       {id: 5, method: 'DELETE', url: '/api/hocvien/{id}', header: '', params: '', json: '{\n"code": 200,\n"message": "Xóa thành công"\n}', des: 'Xóa'},
     ] 
   }
@@ -315,11 +315,11 @@ export class DkMonHoc extends Component {
 export class ChiTietLop extends Component {
   state = {
     content: [
-      {id: 1, method: 'GET', url: '/api/chitietlop', header: '', params: '', json: '', des: 'Lấy toàn bộ'},
-      {id: 2, method: 'GET', url: '/api/chitietlop/{str}', header: '', params: '', json: '', des: 'Tìm kiếm'},
-      {id: 3, method: 'POST', url: '/api/chitietlop', header: '', params: '{\n "mahocvien"\n "malop"\n "machuyenlop"\n "thoigianchuyen"\n}', json: '{\n"code": 200,\n"message": "Tạo thành công"\n}', des: 'Tạo mới'},
-      {id: 4, method: 'PUT', url: '/api/chitietlop/{id}', header: '', params: '{\n "mahocvien"\n "malop"\n "machuyenlop"\n "thoigianchuyen"\n}', json: '{\n"code": 200,\n"message": "Cập nhật thành công"\n}', des: 'Cập nhật'},
-      {id: 5, method: 'DELETE', url: '/api/chitietlop/{id}', header: '', params: '', json: '{\n"code": 200,\n"message": "Xóa thành công"\n}', des: 'Xóa'},
+      {id: 1, method: 'GET', url: '/api/chi-tiet-lop', header: '', params: '', json: '', des: 'Lấy toàn bộ'},
+      {id: 2, method: 'GET', url: '/api/chi-tiet-lop/{str}', header: '', params: '', json: '', des: 'Tìm kiếm'},
+      {id: 3, method: 'POST', url: '/api/chi-tiet-lop', header: '', params: '{\n "MaLop"\n "MaHocVien"\n}', json: '{\n"code": 200,\n"message": "Thêm học viên thành công"\n}', des: 'Tạo mới'},
+      {id: 4, method: 'PUT', url: '/api/chi-tiet-lop/{id}', header: '', params: '{\n "MaLop"\n "MaHocVien"\n "Diem"\n "DanhGia"\n}', json: '{\nTrả về đối tượng\n}', des: 'Cập nhật'},
+      {id: 5, method: 'DELETE', url: '/api/chi-tiet-lop/{id}', header: '', params: '', json: '{\n"code": 200,\n"message": "Xóa thành công"\n}', des: 'Xóa'},
     ] 
   }
   render() {

@@ -46,6 +46,10 @@
                 <div id="lophoc" class="field-body"></div>
             </div>
             <div class="field-group">
+                <div class="field-title"><p>Chi tiết lớp học</p></div>
+                <div id="chitietlop" class="field-body"></div>
+            </div>
+            <div class="field-group">
                 <div class="field-title"><p style="color: darkgrey">Cơ sở</p></div>
                 <div id="coso" class="field-body"></div>
             </div>
@@ -71,10 +75,7 @@
                 <div class="field-title"><p>Đăng ký môn học</p></div>
                 <div id="dkmonhoc" class="field-body"></div>
             </div> -->
-            <div class="field-group">
-                <div class="field-title"><p style="color: red">Chi tiết lớp học (Đang fix)</p></div>
-                <div id="chitietlop" class="field-body"></div>
-            </div>
+            
             <!-- <div class="field-group">
                 <div class="field-title"><p>Chương trình học bổ sung</p></div>
                 <div id="ctrinh_bosung" class="field-body"></div>
