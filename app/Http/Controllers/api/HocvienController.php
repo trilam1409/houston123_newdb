@@ -217,13 +217,12 @@ class HocvienController extends Controller
             return response()->json(['code' => 401, 'message' => 'Không tìm thấy'], 200);
         } else {
             $hocvien = Hocvien::join('COSO', 'USERS.Cơ Sở', '=', 'COSO.Cơ Sở')
-            ->select('USERS.Họ Và Tên', 'USERS.Ngày Sinh','USERS.Lớp',  'USERS.Số Điện Thoại', 'USERS.Học Lực Đầu Vào', 'USERS.Ngày Nhập Học','USERS.Tên Trường', 'USERS.Biết Houston123 Như Thế Nào', 
-            'USERS.Địa Chỉ', 'COSO.Tên Cơ Sở', 'USERS.Họ Và Tên (NT1)', 'USERS.Số Điện Thoại (NT1)','USERS.Nghề Nghiệp (NT1)',
-            'USERS.Họ Và Tên (NT2)','USERS.Số Điện Thoại (NT2)','USERS.Nghề Nghiệp (NT2)')
-            ->orderBy('ID', 'desc')->paginate(30);
-            $custom = collect(['code' => 200]);
-            $data = $custom->merge($hocvien);
-            return response()->json($data, 200)->header('charset','utf8');
+            ->select('USERS.Ngày Sinh','USERS.Học Lực Đầu Vào','USERS.Tên Trường','USERS.Biết Houston123 Như Thế Nào', 
+            'USERS.Địa Chỉ', 'COSO.Tên Cơ Sở')
+            ->orderBy('ID', 'desc')->get();
+            //$custom = collect(['code' => 200]);
+            //$data = $custom->merge($hocvien);
+            return response()->json($hocvien, 200)->header('charset','utf8');
         }
     }
 }

@@ -237,7 +237,7 @@ export class LopHoc extends Component {
       {id: 1, method: 'GET', url: '/api/lophoc', header: '', params: '', json: '', des: 'Lấy toàn bộ'},
       {id: 2, method: 'GET', url: '/api/lophoc/{str}', header: '', params: '', json: '', des: 'Tìm kiếm'},
       {id: 3, method: 'POST', url: '/api/lophoc', header: '', params: '{\n "lop"\n "mamonhoc"\n "magiaovien"\n "batdau"\n "ketthuc"\n "coso"\n}', json: '{\n"code": 200,\n"message": "Tạo thành công"\n}', des: 'Tạo mới'},
-      {id: 4, method: 'PUT', url: '/api/lophoc/{id}', header: '', params: '{\n "lop"\n "mamonhoc"\n "magiaovien"\n "batdau"\n "ketthuc"\n "coso"\n}', json: '{\n"code": 200,\n"message": "Cập nhật thành công"\n}', des: 'Cập nhật'},
+      {id: 4, method: 'PUT', url: '/api/lophoc/{id}', header: '', params: '{\n "magiaovien"\n "batdau"\n "ketthuc"\n "LyDoKetThuc"\n "NhanVienKT"\n}', json: '{\nTrả về đối tượng\n}', des: 'Cập nhật'},
       {id: 5, method: 'DELETE', url: '/api/lophoc/{id}', header: '', params: '', json: '{\n"code": 200,\n"message": "Xóa thành công"\n}', des: 'Xóa'}
     ] 
   }

@@ -23,13 +23,9 @@
                     <div class="views-col views-col-6">Describe</div>
                 </div>
             </div>
-            <div class="field-group field-group-first">
-                <div class="field-title"><p>Marketing</p></div>
-                <div id="marketing" class="field-body">
-                </div>  
-            </div>
 
-            <div class="field-group">
+
+            <div class="field-group field-group-first">
                 <div class="field-title"><p>Account</p></div>
                 <div id="account" class="field-body"></div>
             </div>
@@ -46,23 +42,29 @@
                 <div id="hocvien" class="field-body"></div>
             </div>
             <div class="field-group">
-                <div class="field-title"><p>Cơ sở</p></div>
-                <div id="coso" class="field-body"></div>
-            </div>
-            <div class="field-group">
-                <div class="field-title"><p>Loại quản lý</p></div>
-                <div id="loaiql" class="field-body"></div>
-            </div>
-            <div class="field-group">
-                <div class="field-title"><p>Môn học</p></div>
-                <div id="monhoc" class="field-body"></div>
-            </div>
-            <div class="field-group">
                 <div class="field-title"><p>Lớp học</p></div>
                 <div id="lophoc" class="field-body"></div>
             </div>
             <div class="field-group">
-                <div class="field-title"><p>Phòng học</p></div>
+                <div class="field-title"><p style="color: darkgrey">Cơ sở</p></div>
+                <div id="coso" class="field-body"></div>
+            </div>
+            <div class="field-group">
+                <div class="field-title"><p style="color: darkgrey">Marketing</p></div>
+                <div id="marketing" class="field-body">
+                </div>  
+            </div>
+            <div class="field-group">
+                <div class="field-title"><p style="color: darkgrey">Loại quản lý</p></div>
+                <div id="loaiql" class="field-body"></div>
+            </div>
+            <div class="field-group">
+                <div class="field-title"><p style="color: darkgrey">Môn học</p></div>
+                <div id="monhoc" class="field-body"></div>
+            </div>
+            
+            <div class="field-group">
+                <div class="field-title"><p style="color: darkgrey">Phòng học</p></div>
                 <div id="phonghoc" class="field-body"></div>
             </div>
             <!-- <div class="field-group">
