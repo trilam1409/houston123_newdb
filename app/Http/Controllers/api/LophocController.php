@@ -103,7 +103,7 @@ class LophocController extends Controller
         'Ngày Bắt Đầu', 'Ngày Kết Thúc', 'branch', 'COSO.Tên Cơ Sở','Lý Do Kết Thúc', 'Mã Nhân Viên KT Lớp')->orderBy('ID','desc')->paginate(30);
      
         if ($lophoc->count() == 0){
-            return response()->json(['code' => 401, 'message' => 'Không tìm thấy'], 200);
+            return response()->json(['code' => 200, 'data' => []], 200);
         } else {
             $custom = collect(['code' => 200]);
             $data = $custom->merge($result);
@@ -183,6 +183,21 @@ class LophocController extends Controller
             ->join('COSO', 'LOPHOC.branch', '=', 'COSO.Cơ Sở')
             ->select('Mã Lớp', 'Lớp', 'LOPHOC.Mã Môn Học', 'DANHSACHMONHOC.name', 'LOPHOC.Mã Giáo Viên', 'GIAOVIEN.Họ Và Tên', 
             'Ngày Bắt Đầu', 'Ngày Kết Thúc', 'branch', 'COSO.Tên Cơ Sở')->paginate(30);
+            $custom = collect(['code' => 200]);
+            $data = $custom->merge($lophoc);
+            return response()->json($data, 200)->header('charset','utf-8');
+        }
+    }
+
+    public function findTeacherID($maGiaoVien, $maLop){
+        $lophoc = Lophoc::where('LOPHOC.Mã Giáo Viên',$maGiaoVien)->where('Mã Lớp',$maLop);
+        if ($lophoc->get()->count() == 0){
+            return response()->json(['code' => 401, 'message' => 'Không tìm thấy lớp'], 200);
+        } else{
+            $lophoc = $lophoc->join('DANHSACHMONHOC', 'LOPHOC.Mã Môn Học', '=', 'DANHSACHMONHOC.mamon')->join('GIAOVIEN', 'LOPHOC.Mã Giáo Viên', '=', 'GIAOVIEN.Mã Giáo Viên')
+            ->join('COSO', 'LOPHOC.branch', '=', 'COSO.Cơ Sở')
+            ->select('Mã Lớp', 'Lớp', 'LOPHOC.Mã Môn Học', 'DANHSACHMONHOC.name', 'LOPHOC.Mã Giáo Viên', 'GIAOVIEN.Họ Và Tên', 
+            'Ngày Bắt Đầu', 'Ngày Kết Thúc', 'branch', 'COSO.Tên Cơ Sở','Lý Do Kết Thúc', 'Mã Nhân Viên KT Lớp')->orderBy('ID','desc')->paginate(30);
             $custom = collect(['code' => 200]);
             $data = $custom->merge($lophoc);
             return response()->json($data, 200)->header('charset','utf-8');
