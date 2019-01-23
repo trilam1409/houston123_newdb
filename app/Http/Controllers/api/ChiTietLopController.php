@@ -48,14 +48,21 @@ class ChiTietLopController extends Controller
             'MaLop' => 'required|string',
             'MaHocVien' => 'required|string'
         ]);
+        
+        $validate = ChiTietLop::where('MaLop',$request->MaLop)->where('MaHocVien',$request->MaHocVien);
+        if($validate->count() > 0){
+            return response()->json(['code' => 401, 'message' => 'Học viên đang học tại lớp'], 200);
+        } else {
+            $chiTietLop = new ChiTietLop ([
+                'MaLop' => $request->MaLop,
+                'MaHocVien' => $request->MaHocVien
+            ]);
+    
+            $chiTietLop->save();
+            return response()->json(['code' => 200, 'message' => 'Thêm học viên thành công'], 200);
+        }
 
-        $chiTietLop = new ChiTietLop ([
-            'MaLop' => $request->MaLop,
-            'MaHocVien' => $request->MaHocVien
-        ]);
-
-        $chiTietLop->save();
-        return response()->json(['code' => 200, 'message' => 'Thêm học viên thành công'], 200);
+        
     }
 
     /**
@@ -66,11 +73,11 @@ class ChiTietLopController extends Controller
      */
     public function show($str)
     {   
-        $chiTietLop = ChiTietLop::where('ID','like','%'.$str.'%')->orwhere('MaLop', 'like','%'.$str.'%')->orwhere('MaHocVien','like','%'.$str.'%');
-        if ($chiTietLop->get()->count() == 0) {
+        $chiTietLop = ChiTietLop::where('CHITIETLOPHOC.ID', $str)->orwhere('MaLop', $str)->orwhere('MaHocVien', $str);
+        if ($chiTietLop->count() == 0) {
             return response()->json(['code' => 401, 'message' => 'Không tìm thấy'], 200);
         } else {
-            $chiTietLop = ChiTietLop::join('USERS', 'MaHocVien', '=', 'USERS.User ID')//->join('LOPHOC','MaLop','=','LOPHOC.Mã Lớp')
+            $chiTietLop = $chiTietLop->join('USERS', 'MaHocVien', '=', 'USERS.User ID')
             ->select('CHITIETLOPHOC.*', 'USERS.Họ Và Tên')->orderBy('ID','desc')->paginate(30);
             $custom = collect(['code' => 200]);
             $data = $custom->merge($chiTietLop);
@@ -89,19 +96,19 @@ class ChiTietLopController extends Controller
         //
     }
 
-    public function show_id($id)
-    {   
-        $chiTietLop = ChiTietLop::where('ID','like',$id);
-        if ($chiTietLop->get()->count() == 0) {
-            return response()->json(['code' => 401, 'message' => 'Không tìm thấy'], 200);
-        } else {
-            $chiTietLop = ChiTietLop::join('USERS', 'MaHocVien', '=', 'USERS.User ID')//->join('LOPHOC','MaLop','=','LOPHOC.Mã Lớp')
-            ->select('CHITIETLOPHOC.*', 'USERS.Họ Và Tên')->orderBy('ID','desc')->paginate(30);
-            $custom = collect(['code' => 200]);
-            $data = $custom->merge($chiTietLop);
-            return response()->json($data, 200)->header('charset','utf-8');
-        }
-    }
+    // public function show_id($id)
+    // {   
+    //     $chiTietLop = ChiTietLop::where('ID','like',$id);
+    //     if ($chiTietLop->get()->count() == 0) {
+    //         return response()->json(['code' => 401, 'message' => 'Không tìm thấy'], 200);
+    //     } else {
+    //         $chiTietLop = ChiTietLop::join('USERS', 'MaHocVien', '=', 'USERS.User ID')
+    //         ->select('CHITIETLOPHOC.*', 'USERS.Họ Và Tên')->orderBy('ID','desc')->paginate(30);
+    //         $custom = collect(['code' => 200]);
+    //         $data = $custom->merge($chiTietLop);
+    //         return response()->json($data, 200)->header('charset','utf-8');
+    //     }
+    // }
 
     /**
      * Update the specified resource in storage.
@@ -127,7 +134,7 @@ class ChiTietLopController extends Controller
         ]);
 
   
-        return $this->show_id($id);
+        return $this->show($id);
     }
 
     /**

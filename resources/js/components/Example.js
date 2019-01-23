@@ -317,10 +317,11 @@ export class ChiTietLop extends Component {
   state = {
     content: [
       {id: 1, method: 'GET', url: '/api/chi-tiet-lop', header: '', params: '', json: '', des: 'Lấy toàn bộ'},
-      {id: 2, method: 'GET', url: '/api/chi-tiet-lop/{str}', header: '', params: '', json: '', des: 'Tìm kiếm'},
-      {id: 3, method: 'POST', url: '/api/chi-tiet-lop', header: '', params: '{\n "MaLop" **\n "MaHocVien" **\n}', json: '{\n"code": 200,\n"message": "Thêm học viên thành công"\n}', des: 'Tạo mới'},
-      {id: 4, method: 'PUT', url: '/api/chi-tiet-lop/{id}', header: '', params: '{\n "MaLop" **\n "MaHocVien" **\n "Diem"\n "DanhGia"\n}', json: '{\nTrả về đối tượng\n}', des: 'Cập nhật'},
-      {id: 5, method: 'DELETE', url: '/api/chi-tiet-lop/{id}', header: '', params: '', json: '{\n"code": 200,\n"message": "Xóa thành công"\n}', des: 'Xóa'},
+      {id: 2, method: 'GET', url: '/api/chi-tiet-lop/{mã lớp}', header: '', params: '', json: '', des: 'Tìm kiếm danh sách các học viên của lớp đó'},
+      {id: 3, method: 'GET', url: '/api/chi-tiet-lop/{mã học viên}', header: '', params: '', json: '', des: 'Tìm kiếm học viên trong các lớp'},
+      {id: 4, method: 'POST', url: '/api/chi-tiet-lop', header: '', params: '{\n "MaLop" **\n "MaHocVien" **\n}', json: '{\n"code": 200,\n"message": "Thêm học viên thành công"\n}', des: 'Tạo mới'},
+      {id: 5, method: 'PUT', url: '/api/chi-tiet-lop/{id}', header: '', params: '{\n "MaLop" **\n "MaHocVien" **\n "Diem"\n "DanhGia"\n}', json: '{\nTrả về đối tượng\n}', des: 'Cập nhật'},
+      {id: 6, method: 'DELETE', url: '/api/chi-tiet-lop/{id}', header: '', params: '', json: '{\n"code": 200,\n"message": "Xóa thành công"\n}', des: 'Xóa'},
     ] 
   }
   render() {
